@@ -1,0 +1,8 @@
+/usr/bin/saiko-cli		--	gen_context(system_u:object_r:saiko_exec_t,s0)
+/usr/sbin/saikod		--	gen_context(system_u:object_r:saiko_exec_t,s0)
+/usr/lib(64)?/saiko/saikod		--	gen_context(system_u:object_r:saiko_exec_t,s0)
+
+/etc/saiko(/.*)?		gen_context(system_u:object_r:saiko_conf_t,s0)
+/var/lib/saiko(/.*)?		gen_context(system_u:object_r:saiko_var_lib_t,s0)
+
+(/var)?/run/saikod(/.*)?   gen_context(system_u:object_r:saiko_var_run_t,s0)

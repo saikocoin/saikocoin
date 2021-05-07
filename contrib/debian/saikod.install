@@ -1,0 +1,3 @@
+usr/local/bin/saikod usr/bin
+usr/local/bin/saiko-cli usr/bin
+debian/examples/saiko.conf etc/saiko

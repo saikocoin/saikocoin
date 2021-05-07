@@ -1,0 +1,6 @@
+usr/local/bin/saiko-qt usr/bin
+share/pixmaps/saiko32.xpm usr/share/pixmaps
+share/pixmaps/saiko16.xpm usr/share/pixmaps
+share/pixmaps/saiko128.png usr/share/pixmaps
+debian/saiko-qt.desktop usr/share/applications
+debian/saiko-qt.protocol usr/share/kde4/services/

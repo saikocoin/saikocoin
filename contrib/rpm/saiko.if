@@ -1,0 +1,157 @@
+
+## <summary>policy for saiko</summary>
+
+
+########################################
+## <summary>
+##	Transition to saiko.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`saiko_domtrans',`
+	gen_require(`
+		type saiko_t, saiko_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domtrans_pattern($1, saiko_exec_t, saiko_t)
+')
+
+
+########################################
+## <summary>
+##	Execute saiko server in the saiko domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`saiko_initrc_domtrans',`
+	gen_require(`
+		type saiko_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, saiko_initrc_exec_t)
+')
+
+
+########################################
+## <summary>
+##	Search saiko lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`saiko_search_lib',`
+	gen_require(`
+		type saiko_var_lib_t;
+	')
+
+	allow $1 saiko_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Read saiko lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`saiko_read_lib_files',`
+	gen_require(`
+		type saiko_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, saiko_var_lib_t, saiko_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage saiko lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`saiko_manage_lib_files',`
+	gen_require(`
+		type saiko_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_files_pattern($1, saiko_var_lib_t, saiko_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage saiko lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`saiko_manage_lib_dirs',`
+	gen_require(`
+		type saiko_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_dirs_pattern($1, saiko_var_lib_t, saiko_var_lib_t)
+')
+
+
+########################################
+## <summary>
+##	All of the rules required to administrate
+##	a saiko environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`saiko_admin',`
+	gen_require(`
+		type saiko_t;
+		type saiko_initrc_exec_t;
+		type saiko_var_lib_t;
+	')
+
+	allow $1 saiko_t:process { ptrace signal_perms };
+	ps_process_pattern($1, saiko_t)
+
+	saiko_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 saiko_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	files_search_var_lib($1)
+	admin_pattern($1, saiko_var_lib_t)
+
+')
+

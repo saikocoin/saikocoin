@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Saiko Core
+Comment=Saiko P2P Cryptocurrency
+Comment[fr]=Saiko, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Saiko, eşten eşe kriptografik sanal para birimi
+Exec=saiko-qt %u
+Terminal=false
+Type=Application
+Icon=saiko128
+MimeType=x-scheme-handler/saiko;
+Categories=Office;Finance;
+StartupWMClass=Saiko-qt
